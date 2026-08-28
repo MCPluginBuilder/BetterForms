@@ -23,6 +23,7 @@ import me.hsgamer.hscore.collections.map.CaseInsensitiveStringMap;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 public class ComponentBuilder extends FunctionalMassBuilder<ComponentBuilder.Input, Component> {
     public static final ComponentBuilder INSTANCE = new ComponentBuilder();
@@ -44,6 +45,16 @@ public class ComponentBuilder extends FunctionalMassBuilder<ComponentBuilder.Inp
     protected String getType(Input input) {
         Map<String, Object> keys = new CaseInsensitiveStringMap<>(input.options);
         return Objects.toString(keys.get("type"), input.menu.getDefaultComponentType());
+    }
+
+    public Optional<Component> build(Input input, boolean legacyComponent) {
+        return build(input).map(component -> {
+            if (component instanceof ConditionalComponent || !legacyComponent) {
+                return component;
+            } else {
+                return new ConditionalComponent(input, component, null);
+            }
+        });
     }
 
     public static final class Input {

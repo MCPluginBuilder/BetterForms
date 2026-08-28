@@ -19,7 +19,6 @@ import me.hsgamer.bettergui.action.ActionApplier;
 import me.hsgamer.bettergui.betterforms.builder.ComponentBuilder;
 import me.hsgamer.bettergui.betterforms.component.Component;
 import me.hsgamer.bettergui.betterforms.component.FormResponseHandler;
-import me.hsgamer.bettergui.betterforms.component.impl.ConditionalComponent;
 import me.hsgamer.bettergui.betterforms.sender.FormSender;
 import me.hsgamer.bettergui.betterforms.util.ComponentUtil;
 import me.hsgamer.bettergui.menu.BaseMenu;
@@ -93,7 +92,6 @@ public class FormMenu extends BaseMenu {
                     });
                 }));
 
-        // A small toggle to use the legacy behavior of wrapping all top-level components with ConditionalComponent
         boolean legacyComponent = Optional.ofNullable(MapUtils.getIfFound(menuSettings, "legacy-component"))
                 .map(Object::toString)
                 .map(Boolean::parseBoolean)
@@ -107,16 +105,11 @@ public class FormMenu extends BaseMenu {
                 continue;
             }
             Map<String, Object> options = optionalOptions.get();
-            Optional<Component> optionalComponent = ComponentBuilder.INSTANCE.build(new ComponentBuilder.Input(this, key, options));
+            Optional<Component> optionalComponent = ComponentBuilder.INSTANCE.build(new ComponentBuilder.Input(this, key, options), legacyComponent);
             if (!optionalComponent.isPresent()) {
                 continue;
             }
             Component component = optionalComponent.get();
-
-            if (legacyComponent && !(component instanceof ConditionalComponent)) {
-                component = new ConditionalComponent(new ComponentBuilder.Input(this, key, options), component, null);
-            }
-
             componentMap.put(key, component);
         }
 
