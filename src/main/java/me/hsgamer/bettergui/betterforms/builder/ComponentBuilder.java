@@ -39,6 +39,7 @@ public class ComponentBuilder extends FunctionalMassBuilder<ComponentBuilder.Inp
         register(ToggleComponent::new, "toggle", "switch");
         register(ConditionalComponent::new, "conditional", "predicate");
         register(ListComponent::new, "list");
+        register(HybridComponent::new, "hybrid");
     }
 
     @Override

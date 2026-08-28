@@ -124,11 +124,9 @@ public class FormMenu extends BaseMenu {
         }
 
         variableManager.register("form_", StringReplacer.of((original, uuid) -> {
-            String[] split = original.split(":", 2);
-            String component = split[0];
-            String key = split.length > 1 ? split[1] : "";
-            return Optional.ofNullable(componentMap.get(component))
-                    .map(provider -> provider.getValue(uuid, key))
+            ComponentUtil.ComponentKey componentKey = ComponentUtil.toComponentKey(original);
+            return Optional.ofNullable(componentMap.get(componentKey.key))
+                    .map(component -> component.getValue(uuid, componentKey.arguments))
                     .orElse(null);
         }));
     }

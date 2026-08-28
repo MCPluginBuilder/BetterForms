@@ -59,4 +59,21 @@ public class ComponentUtil {
         List<String> list = CollectionUtils.createStringListFromObject(input);
         return String.join("\n", list);
     }
+
+    public static ComponentKey toComponentKey(String input) {
+        String[] split = input.split(":", 2);
+        String componentKey = split[0];
+        String componentArgs = split.length > 1 ? split[1] : "";
+        return new ComponentKey(componentKey, componentArgs);
+    }
+
+    public static class ComponentKey {
+        public final String key;
+        public final String arguments;
+
+        ComponentKey(String key, String arguments) {
+            this.key = key;
+            this.arguments = arguments;
+        }
+    }
 }
