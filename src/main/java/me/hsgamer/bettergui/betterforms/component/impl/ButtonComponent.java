@@ -35,6 +35,8 @@ import org.geysermc.cumulus.response.ModalFormResponse;
 import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.util.FormImage;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
@@ -75,13 +77,13 @@ public class ButtonComponent extends Component {
     }
 
     @Override
-    public Optional<FormResponseHandler> apply(UUID uuid, int index, FormBuilder<?, ?, ?> builder) {
+    public List<FormResponseHandler> apply(UUID uuid, int index, FormBuilder<?, ?, ?> builder) {
         if (builder instanceof SimpleForm.Builder) {
             SimpleForm.Builder simpleFormBuilder = (SimpleForm.Builder) builder;
             String replaced = StringReplacerApplier.replace(value, uuid, this);
             FormImage image = imageFunction.apply(uuid);
             simpleFormBuilder.button(replaced, image);
-            return Optional.of((form, response) -> {
+            return Collections.singletonList((form, response) -> {
                 if (response instanceof SimpleFormResponse) {
                     if (((SimpleFormResponse) response).clickedButtonId() == index) {
                         handleClick(uuid);
@@ -97,7 +99,7 @@ public class ButtonComponent extends Component {
             } else {
                 modalFormBuilder.button2(replaced);
             }
-            return Optional.of((form, response) -> {
+            return Collections.singletonList((form, response) -> {
                 if (response instanceof ModalFormResponse) {
                     if (first == ((ModalFormResponse) response).clickedFirst()) {
                         handleClick(uuid);
@@ -105,8 +107,8 @@ public class ButtonComponent extends Component {
                 }
             });
         } else if (builder instanceof CustomForm.Builder) {
-            return Optional.of((form, response) -> handleClick(uuid));
+            return Collections.singletonList((form, response) -> handleClick(uuid));
         }
-        return Optional.empty();
+        return null;
     }
 }

@@ -23,6 +23,8 @@ import me.hsgamer.hscore.common.MapUtils;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.form.util.FormBuilder;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -38,11 +40,11 @@ public class LabelComponent extends Component {
     }
 
     @Override
-    public Optional<FormResponseHandler> apply(UUID uuid, int index, FormBuilder<?, ?, ?> builder) {
+    public List<FormResponseHandler> apply(UUID uuid, int index, FormBuilder<?, ?, ?> builder) {
         if (builder instanceof CustomForm.Builder) {
             ((CustomForm.Builder) builder).label(StringReplacerApplier.replace(value, uuid, LabelComponent.this));
-            return Optional.of(FormResponseHandler.EMPTY);
+            return Collections.emptyList();
         }
-        return Optional.empty();
+        return null;
     }
 }

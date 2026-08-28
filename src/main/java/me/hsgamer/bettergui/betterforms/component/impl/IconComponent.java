@@ -23,7 +23,8 @@ import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.form.util.FormBuilder;
 import org.geysermc.cumulus.util.FormImage;
 
-import java.util.Optional;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -37,14 +38,14 @@ public class IconComponent extends Component {
     }
 
     @Override
-    public Optional<FormResponseHandler> apply(UUID uuid, int index, FormBuilder<?, ?, ?> builder) {
+    public List<FormResponseHandler> apply(UUID uuid, int index, FormBuilder<?, ?, ?> builder) {
         if (builder instanceof CustomForm.Builder) {
             FormImage image = imageFunction.apply(uuid);
             if (image != null) {
                 ((CustomForm.Builder) builder).icon(image);
             }
-            return Optional.of(FormResponseHandler.EMPTY);
+            return Collections.emptyList();
         }
-        return Optional.empty();
+        return null;
     }
 }

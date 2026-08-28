@@ -19,8 +19,9 @@ import me.hsgamer.bettergui.api.menu.Menu;
 import me.hsgamer.bettergui.api.menu.MenuElement;
 import me.hsgamer.bettergui.betterforms.builder.ComponentBuilder;
 import org.geysermc.cumulus.form.util.FormBuilder;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 public abstract class Component implements MenuElement {
@@ -30,7 +31,7 @@ public abstract class Component implements MenuElement {
         this.input = input;
     }
 
-    public abstract Optional<FormResponseHandler> apply(UUID uuid, int index, FormBuilder<?, ?, ?> builder);
+    public abstract @Nullable List<FormResponseHandler> apply(UUID uuid, int index, FormBuilder<?, ?, ?> builder);
 
     public String getValue(UUID uuid, String args) {
         return "";

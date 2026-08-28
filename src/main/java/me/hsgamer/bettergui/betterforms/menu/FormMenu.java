@@ -150,7 +150,10 @@ public class FormMenu extends BaseMenu {
 
         List<FormResponseHandler> responseHandlers = new ArrayList<>();
         for (Component provider : componentMap.values()) {
-            provider.apply(uuid, responseHandlers.size(), builder).ifPresent(responseHandlers::add);
+            List<FormResponseHandler> handlers = provider.apply(uuid, responseHandlers.size(), builder);
+            if (handlers != null) {
+                responseHandlers.addAll(handlers);
+            }
         }
 
         formModifiers.forEach(modifier -> modifier.accept(uuid, builder));

@@ -24,8 +24,9 @@ import org.geysermc.cumulus.form.util.FormBuilder;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.FormResponse;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -41,10 +42,10 @@ public abstract class ValueComponent extends Component {
     protected abstract String getValue(UUID uuid, CustomFormResponse response);
 
     @Override
-    public Optional<FormResponseHandler> apply(UUID uuid, int index, FormBuilder<?, ?, ?> builder) {
+    public List<FormResponseHandler> apply(UUID uuid, int index, FormBuilder<?, ?, ?> builder) {
         if (builder instanceof CustomForm.Builder) {
             ValueComponent.this.apply(uuid, (CustomForm.Builder) builder);
-            return Optional.of(new FormResponseHandler() {
+            return Collections.singletonList(new FormResponseHandler() {
                 @Override
                 public void handle(Form form, FormResponse response) {
                     // EMPTY
@@ -58,7 +59,7 @@ public abstract class ValueComponent extends Component {
                 }
             });
         }
-        return Optional.empty();
+        return null;
     }
 
     @Override

@@ -19,10 +19,6 @@ import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.response.FormResponse;
 
 public interface FormResponseHandler {
-    FormResponseHandler EMPTY = (form, response) -> {
-        // EMPTY
-    };
-
     void handle(Form form, FormResponse response);
 
     default void preHandle(Form form, FormResponse response) {

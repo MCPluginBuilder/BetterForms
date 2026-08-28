@@ -51,16 +51,16 @@ public class ListComponent extends Component {
     }
 
     @Override
-    public Optional<FormResponseHandler> apply(UUID uuid, int index, FormBuilder<?, ?, ?> builder) {
+    public List<FormResponseHandler> apply(UUID uuid, int index, FormBuilder<?, ?, ?> builder) {
         for (int i = 0; i < components.size(); i++) {
             Component component = components.get(i);
-            Optional<FormResponseHandler> result = component.apply(uuid, index, builder);
-            if (result.isPresent()) {
+            List<FormResponseHandler> result = component.apply(uuid, index, builder);
+            if (result != null) {
                 indexMap.put(uuid, i);
                 return result;
             }
         }
-        return Optional.empty();
+        return null;
     }
 
     @Override
